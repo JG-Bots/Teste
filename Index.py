@@ -52,10 +52,12 @@ local function kickPlayer(admin, targetName)
     end
 end
 
--- Função para enviar mensagens do servidor para o chat
+-- Função para enviar mensagens no chat clássico
 local function sendServerMessage(message)
     local ChatService = game:GetService("Chat")
-    ChatService:Chat(game.Workspace, message, Enum.ChatColor.Blue)
+    for _, player in pairs(game.Players:GetPlayers()) do
+        ChatService:Chat(player.Character or player, message, Enum.ChatColor.Blue)
+    end
 end
 
 -- Monitorando jogadores que entram no jogo
