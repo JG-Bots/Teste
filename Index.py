@@ -23,7 +23,7 @@ local function banPlayer(admin, targetName)
     if targetPlayer then
         table.insert(BannedPlayers, targetName)
         targetPlayer:Kick("Você foi banido por " .. admin.Name)
-        print(targetName .. " foi banido por " .. admin.Name)
+        print(targetName .. " foi banido por " .. admin.Name)  -- Apenas para verificar no Output
     else
         admin:Kick("Jogador não encontrado ou já desconectado!")
     end
@@ -34,7 +34,7 @@ local function unbanPlayer(admin, targetName)
     for i, bannedName in pairs(BannedPlayers) do
         if bannedName == targetName then
             table.remove(BannedPlayers, i)
-            print(targetName .. " foi desbanido por " .. admin.Name)
+            print(targetName .. " foi desbanido por " .. admin.Name)  -- Apenas para verificar no Output
             return
         end
     end
@@ -46,7 +46,7 @@ local function kickPlayer(admin, targetName)
     local targetPlayer = game.Players:FindFirstChild(targetName)
     if targetPlayer then
         targetPlayer:Kick("Você foi kickado por " .. admin.Name)
-        print(targetName .. " foi kickado por " .. admin.Name)
+        print(targetName .. " foi kickado por " .. admin.Name)  -- Apenas para verificar no Output
     else
         admin:Kick("Jogador não encontrado ou já desconectado!")
     end
@@ -56,7 +56,9 @@ end
 local function sendServerMessage(message)
     local ChatService = game:GetService("Chat")
     for _, player in pairs(game.Players:GetPlayers()) do
-        ChatService:Chat(player.Character or player, message, Enum.ChatColor.Blue)
+        if player.Character then
+            ChatService:Chat(player.Character, message, Enum.ChatColor.Blue)
+        end
     end
 end
 
@@ -73,7 +75,7 @@ game.Players.PlayerAdded:Connect(function(player)
     -- Verifica se o jogador é admin
     if isAdmin(player) then
         sendServerMessage("[server]: Um admin entrou no servidor.")
-        print(player.Name .. " é um admin e entrou no jogo.")
+        print(player.Name .. " é um admin e entrou no jogo.")  -- Apenas para verificar no Output
     end
 end)
 
@@ -92,10 +94,10 @@ game.Players.PlayerAdded:Connect(function(player)
             elseif command == "!kick" and targetName then
                 kickPlayer(player, targetName)
             else
-                print("Comando inválido ou incompleto.")
+                print("Comando inválido ou incompleto.")  -- Apenas para verificar no Output
             end
         else
-            print(player.Name .. " tentou usar comandos de admin.")
+            print(player.Name .. " tentou usar comandos de admin.")  -- Apenas para verificar no Output
         end
     end)
 end)
