@@ -54,10 +54,8 @@ end
 
 -- Função para enviar mensagens do servidor para o chat
 local function sendServerMessage(message)
-    local chatEvent = game:GetService("ReplicatedStorage"):FindFirstChild("DefaultChatSystemChatEvents")
-    if chatEvent and chatEvent.SayMessageRequest then
-        chatEvent.SayMessageRequest:FireServer(message, "All")
-    end
+    local ChatService = game:GetService("Chat")
+    ChatService:Chat(game.Workspace, message, Enum.ChatColor.Blue)
 end
 
 -- Monitorando jogadores que entram no jogo
