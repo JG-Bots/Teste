@@ -23,6 +23,7 @@ local function banPlayer(admin, targetName)
     if targetPlayer then
         table.insert(BannedPlayers, targetName)
         targetPlayer:Kick("Você foi banido por " .. admin.Name)
+        sendServerMessage("[server]: " .. targetName .. " foi banido por " .. admin.Name)
         print(targetName .. " foi banido por " .. admin.Name)  -- Apenas para verificar no Output
     else
         admin:Kick("Jogador não encontrado ou já desconectado!")
@@ -34,6 +35,7 @@ local function unbanPlayer(admin, targetName)
     for i, bannedName in pairs(BannedPlayers) do
         if bannedName == targetName then
             table.remove(BannedPlayers, i)
+            sendServerMessage("[server]: " .. targetName .. " foi desbanido por " .. admin.Name)
             print(targetName .. " foi desbanido por " .. admin.Name)  -- Apenas para verificar no Output
             return
         end
@@ -46,6 +48,7 @@ local function kickPlayer(admin, targetName)
     local targetPlayer = game.Players:FindFirstChild(targetName)
     if targetPlayer then
         targetPlayer:Kick("Você foi kickado por " .. admin.Name)
+        sendServerMessage("[server]: " .. targetName .. " foi kickado por " .. admin.Name)
         print(targetName .. " foi kickado por " .. admin.Name)  -- Apenas para verificar no Output
     else
         admin:Kick("Jogador não encontrado ou já desconectado!")
@@ -74,7 +77,7 @@ game.Players.PlayerAdded:Connect(function(player)
 
     -- Verifica se o jogador é admin
     if isAdmin(player) then
-        sendServerMessage("[server]: Um admin entrou no servidor.")
+        sendServerMessage("[server]: Um admin entrou no servidor: " .. player.Name)
         print(player.Name .. " é um admin e entrou no jogo.")  -- Apenas para verificar no Output
     end
 end)
@@ -94,9 +97,11 @@ game.Players.PlayerAdded:Connect(function(player)
             elseif command == "!kick" and targetName then
                 kickPlayer(player, targetName)
             else
+                sendServerMessage("[server]: Comando inválido ou incompleto.")
                 print("Comando inválido ou incompleto.")  -- Apenas para verificar no Output
             end
         else
+            sendServerMessage("[server]: " .. player.Name .. " tentou usar comandos de admin.")
             print(player.Name .. " tentou usar comandos de admin.")  -- Apenas para verificar no Output
         end
     end)
